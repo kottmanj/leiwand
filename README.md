@@ -3,10 +3,12 @@ leiwandner graph plotter
 
 Use this script like this
 
-# Use with 'mathematica' string
+## Use with 'mathematica' string
+```
 python leiwand.py mathematica={{weight,vertex1,mode1,vertex2,mode2},{weight,vertex1,mode1,vertex2,mode2}}
+```
 
-# Or get the data into a file which list the data of the edges like:
+## Or get the data into a file which list the data of the edges like:
 ```
 weight vertex1 mode1 vertex2 mode2
 weight vertex1 mode1 vertex2 mode2
