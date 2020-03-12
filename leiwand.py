@@ -35,7 +35,16 @@ variables = {
     "color0": "{RGB}{0,0,204}",
     "color1": "{RGB}{0,204,0}",
     "color2": "{RGB}{204,0,0}",
-    "vertex_color": "{RGB}{255,250,205}"
+    "vertex_color": "{RGB}{255,250,205}",
+    "bend00":"0",
+    "bend11":"10",
+    "bend22":"-10",
+    "bend01":"20",
+    "bend10":"-20",
+    "bend02":"30",
+    "bend20":"-30",
+    "bend12":"40",
+    "bend21":"-40",
 }
 
 filename = "data.txt"
@@ -65,15 +74,15 @@ with open(output + ".tex", "w") as outf:
                 data.append((float(tmp[0]), str(tmp[1]).strip(), int(tmp[2]), str(tmp[3]).strip(), int(tmp[4])))
 
     optionmap = {
-        (0, 0): "color=zerocol",
-        (1, 1): "color=onecol, bend right=20",
-        (2, 2): "color=twocol, bend left=20",
-        (0, 1): "bicolor={zerocol}{onecol}, bend left=40",
-        (1, 0): "bicolor={onecol}{zerocol}, bend right=40",
-        (0, 2): "bicolor={zerocol}{twocol}, bend left=60",
-        (2, 0): "bicolor={green}{zerocol}, bend right=60",
-        (1, 2): "bicolor={onecol}{twocol}, bend left=80",
-        (2, 1): "bicolor={twocol}{onecol}, bend right=80",
+        (0, 0): "color=zerocol, bend right="+variables["bend00"],
+        (1, 1): "color=onecol, bend right="+variables["bend11"],
+        (2, 2): "color=twocol, bend right="+variables["bend22"],
+        (0, 1): "bicolor={zerocol}{onecol}, bend left="+variables["bend01"],
+        (1, 0): "bicolor={onecol}{zerocol}, bend right="+variables["bend10"],
+        (0, 2): "bicolor={zerocol}{twocol}, bend left="+variables["bend20"],
+        (2, 0): "bicolor={green}{zerocol}, bend right="+variables["bend02"],
+        (1, 2): "bicolor={onecol}{twocol}, bend left="+variables["bend12"],
+        (2, 1): "bicolor={twocol}{onecol}, bend right="+variables["bend21"],
     }
 
     print(r"""
