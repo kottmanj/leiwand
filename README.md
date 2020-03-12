@@ -35,4 +35,14 @@ color0="{RGB}{0,0,204}"  # defines the color for mode 0
 color1="{RGB}{0,204,0}"  # defines the color for mode 1  
 color2="{RGB}{204,0,0}"  # defines the color for mode 2  
 vertex_color="{RGB}{255,250,205}" # defines the background color of the vertices  
+bend00=0, # defines to which angle the lines between mode 0 and 0 are bend
+bend11=10, 
+bend22=-10,
+bend01=20,
+bend10=-20,
+bend02=30,
+bend20=-30,
+bend12=40,
+bend21=-40,
+
 ```
