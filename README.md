@@ -1,6 +1,9 @@
 # leiwand
 leiwandner graph plotter
 
+needs python packages
+- planar (pip install planar)
+
 Use this script like this
 
 ## Use with 'mathematica' string
