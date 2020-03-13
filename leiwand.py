@@ -38,6 +38,7 @@ variables = {
     "bend20":"-30",
     "bend12":"40",
     "bend21":"-40",
+    "angle":180
 }
 
 print(docstring)
@@ -133,10 +134,10 @@ with open(output + ".tex", "w") as outf:
     vertices = list(set(vertices))
     max_weight = max(weights)
 
-    poly = Polygon.regular(len(vertices), radius=5)
+    poly = Polygon.regular(len(vertices), radius=5, angle=int(variables["angle"]))
 
     # sort vertices alphabetically
-    vertices = sorted(vertices)
+    vertices = list(reversed(sorted(vertices)))
     for i, coord in enumerate(poly):
         print(coord)
         print(r"\node[vertex] ({name}) at ({x},{y}) {xname};".format(name=vertices[i], xname=r"{\color{fontcolor}" + vertices[i] + "}",
