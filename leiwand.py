@@ -20,31 +20,15 @@ You can call the script with several options like this
 python leiwand.py in=filename key1=value1 key2=value2
 
 option keys are the following
-line_width=2.0
-color0="{RGB}{0,0,204}"  # defines the color for mode 0
-color1="{RGB}{0,204,0}"  # defines the color for mode 1
-color2="{RGB}{204,0,0}"  # defines the color for mode 2
-vertex_color="{RGB}{255,250,205}" # defines the background color of the vertices
-bend00=0, # defines to which angle the lines between mode 0 and 0 are bend
-bend11=10,
-bend22=-10,
-bend01=20,
-bend10=-20,
-bend02=30,
-bend20=-30,
-bend12=40,
-bend21=-40,
-
 """
-
-print(docstring)
 
 variables = {
     "line_width": 2.0,
     "color0": "{RGB}{0,0,204}",
     "color1": "{RGB}{0,204,0}",
     "color2": "{RGB}{204,0,0}",
-    "vertex_color": "{RGB}{255,250,205}",
+    "vertexcolor": "{RGB}{0,0,0}",
+    "fontcolor": "{RGB}{250,250,250}",
     "bend00":"0",
     "bend11":"10",
     "bend22":"-10",
@@ -55,6 +39,10 @@ variables = {
     "bend12":"40",
     "bend21":"-40",
 }
+
+print(docstring)
+for k,v in variables.items():
+    print("{}={}".format(k,v))
 
 filename = "data.txt"
 output = "graph"
@@ -105,10 +93,11 @@ with open(output + ".tex", "w") as outf:
     \begin{document}
     \pagestyle{empty}
 """,file=outf)
-    colors=r"\definecolor{vertexcol}"+variables["vertex_color"]
+    colors=r"\definecolor{vertexcol}"+variables["vertexcolor"]
     colors+=r"\definecolor{onecol}"+variables["color0"]
     colors+=r"\definecolor{twocol}"+variables["color1"]
     colors+=r"\definecolor{zerocol}"+variables["color2"]
+    colors+=r"\definecolor{fontcolor}" + variables["fontcolor"]
     print(colors, file=outf)
     print(r"""
     \newlength\mylen
@@ -145,8 +134,12 @@ with open(output + ".tex", "w") as outf:
     max_weight = max(weights)
 
     poly = Polygon.regular(len(vertices), radius=5)
+
+    # sort vertices alphabetically
+    vertices = sorted(vertices)
     for i, coord in enumerate(poly):
-        print(r"\node[vertex] ({name}) at ({x},{y}) {xname};".format(name=vertices[i], xname="{" + vertices[i] + "}",
+        print(coord)
+        print(r"\node[vertex] ({name}) at ({x},{y}) {xname};".format(name=vertices[i], xname=r"{\color{fontcolor}" + vertices[i] + "}",
                                                                      x=coord[0], y=coord[1]), file=outf)
 
     edge_string = r"\path ({v1}) edge[{options}, opacity={opacity}] ({v2});"
