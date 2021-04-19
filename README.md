@@ -46,3 +46,8 @@ bend12=40,
 bend21=-40,
 
 ```
+
+Manual vertex coordinates:
+```bash
+python leiwand.py in=data.txt coord_a=0.0,1.0 coord_b=0.0,2.0 coord_c=0.0,3.0 coord_d=0.0,4.0 coord_e=0.0,5.0 coord_f=0.0,6.0
+```

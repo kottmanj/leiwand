@@ -53,6 +53,7 @@ bendall=value  | set all bendxx angles to same value
 """
 )
 
+poly={}
 filename = "data.txt"
 output = "graph"
 for arg in sys.argv:
@@ -60,6 +61,12 @@ for arg in sys.argv:
         filename = arg.split("=")[1]
     if "out=" in arg:
         output = arg.split("=")[1]
+    if "coord" in arg:
+        tmp = arg.split("_")[1].split("=")
+        name = tmp[0]
+        coord = tmp[1].split(",")
+        coord = [float(coord[0]),float(coord[1])]
+        poly[name] = coord
     elif "=" in arg:
         tmp = arg.split("=")
         variables[tmp[0]] = tmp[1]
@@ -94,10 +101,12 @@ with open(output + ".tex", "w") as outf:
                 if line == "\n":
                     print("caught blanc line")
                     continue
+                line = line.strip()
+                line = line.strip(",") # remove trailing comma
                 tmp = line.split(",")
                 print("tmp=", tmp, " tmp0=", tmp[0])
-                data.append((float(tmp[0]), str(tmp[1]).strip(), int(tmp[2]), str(tmp[3]).strip(), int(tmp[4])))
-
+                data.append([float(tmp[0]), str(tmp[1]).strip(), int(tmp[2]), str(tmp[3]).strip(), int(tmp[4])])
+    print("data=\n",data) 
     optionmap = {
         (0, 0): "color=zerocol, bend right="+variables["bend00"],
         (1, 1): "color=onecol, bend right="+variables["bend11"],
@@ -173,13 +182,15 @@ with open(output + ".tex", "w") as outf:
     else:
         #sort vertices alphabetically
         vertices = list(reversed(sorted(vertices)))
-
-    poly = Polygon.regular(len(vertices), radius=5, angle=float(variables["angle"]))
-
+    
+    if len(poly) < len(vertices):
+        poly = Polygon.regular(len(vertices), radius=5, angle=float(variables["angle"]))
+    else:
+        # sort alphabetically
+        poly = reversed(list(dict(sorted(poly.items(), key=lambda x:x[0])).values()))
     for i, coord in enumerate(poly):
-        print(coord)
-        print(r"\node[vertex] ({name}) at ({x},{y}) {xname};".format(name=vertices[i], xname=r"{\color{fontcolor}" + vertices[i] + "}",
-                                                                     x=coord[0], y=coord[1]), file=outf)
+        print(coord, vertices[i])
+        print(r"\node[vertex] ({name}) at ({x},{y}) {xname};".format(name=vertices[i], xname=r"{\color{fontcolor}" + vertices[i] + "}", x=coord[0], y=coord[1]), file=outf)
 
     edge_string = r"\path ({v1}) edge[{options}, opacity={opacity}] ({v2});"
     for d in data:
