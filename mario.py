@@ -1,3 +1,4 @@
+#example file
 from leiwand import leiwand
 
 # write datafile with edges
